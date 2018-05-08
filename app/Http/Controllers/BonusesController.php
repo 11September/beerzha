@@ -108,7 +108,7 @@ class BonusesController extends Controller
     {
         $user = User::where('bonuses_token', '=', $bonusToken)->first();
 
-        if (!$user && !$user->bonuses_token) {
+        if (empty($user->bonuses_token) || !$user->bonuses_token) {
             abort(404);
         }
 
