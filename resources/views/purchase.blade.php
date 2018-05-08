@@ -69,28 +69,13 @@
             <h1 style="text-align: center">Зачисление бонусов!</h1>
         </div>
 
-
-        @foreach($orders as $order)
-            <div class="col-md-4">
-                <div class="card" style="width:100%">
-                    <img class="card-img-top" src="{{ asset('storage/' . $order->dish->image) }}" alt="Card image">
-                    <div class="card-body">
-                        <h4 class="card-title">Цена: {{ $order->dish->price }}</h4>
-                        <h4 class="card-title">Кол-во: {{ $order->amount }}</h4>
-                        <p class="card-text">{{ $order->dish->title }}</p>
-                    </div>
-                </div>
-            </div>
-        @endforeach
-
-
         <div class="col-md-12">
-            <form method="post" action="{{ action('BonusesController@getOrders') }}">
+            <form method="post" action="{{ action('BonusesController@obtainingBonuses') }}">
                 {{ csrf_field() }}
 
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Общая сума за заказ</label>
-                    <input disabled name="price" type="number" value="{{ $total }}" class="form-control"
+                    <input name="price" type="number" value="" class="form-control"
                            id="exampleFormControlInput1"
                            placeholder="100 грн.">
                 </div>
@@ -104,16 +89,6 @@
                     <label for="exampleFormControlInput2">Код сотрудника</label>
                     <input name="code" type="password" class="form-control" id="exampleFormControlInput2"
                            placeholder="100 грн.">
-                </div>
-
-                <div class="form-group none">
-                    <select name="orders[]" multiple="multiple" class="form-control">
-
-                        @foreach($orders as $order)
-                            <option selected="selected" value="{{ $order->id }}"></option>
-                        @endforeach
-
-                    </select>
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Отправить</button>

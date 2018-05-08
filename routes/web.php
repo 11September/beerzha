@@ -18,10 +18,13 @@ Route::get('/ticker', 'BeergaController@getRunningLine')->name('getTicker');
 
 Route::get('/notification/{notification}', 'NotificationsController@notificationPage')->name('notificationPageWeb');
 
+// Bonuses
 Route::get('/bonuses/{bonusToken}', 'BonusesController@checkout')->name('page-get-bonuses');
-Route::get('/bonuses/purchase/{bonusToken}', 'BonusesController@purchase')->name('page-purchase-bonuses');
+Route::get('/bonuses/purchase/{bonusToken}', 'BonusesController@get_bonuses')->name('page-purchase-bonuses');
+
 Route::post('/getbonuses', 'BonusesController@getbonuses')->name('getbonuses');
-Route::post('/getOrders', 'BonusesController@getOrders')->name('getOrders');
+Route::post('/getOrders', 'BonusesController@obtainingBonuses')->name('obtainingBonuses');
+// Bonuses
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

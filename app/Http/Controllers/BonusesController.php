@@ -104,29 +104,15 @@ class BonusesController extends Controller
         return view('bonuses', compact('personals', 'bonusToken', 'orders'));
     }
 
-    public function purchase($bonusToken = null)
+    public function get_bonuses($bonusToken = null)
     {
         $user = User::where('bonuses_token', '=', $bonusToken)->first();
 
-        if (!$user) {
+        if (!$user && !$user->bonuses_token) {
             abort(404);
         }
 
-        $total = 0;
-
-        $orders = Order::where('status', 'OPEN')
-            ->where('payment', 'bonuses')
-            ->where('user_id', $user->id)
-            ->with('dish')
-            ->get();
-
-        $personals = Frame::all();
-
-        foreach ($orders as $order){
-            $total += intval($order->price);
-        }
-
-        return view('purchase', compact('personals', 'bonusToken', 'orders', 'total'));
+        return view('purchase', compact('bonusToken'));
     }
 
     public function getbonuses(Request $request)
@@ -172,12 +158,11 @@ class BonusesController extends Controller
         return view('bonuses-thanks');
     }
 
-    public function getOrders(Request $request)
+    public function obtainingBonuses(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'price' => 'required|numeric',
             'user_id' => 'required',
-            'orders' => 'required',
             'code' => 'required',
         ]);
 
@@ -192,29 +177,13 @@ class BonusesController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-//        Запись в таблицу бонусов и Закрытие заказов
-        $totalBonusSpend = 0;
+//      Начисление бонусов
+        $percentSetting = Beerga::where('key', 'bonuses_percent')->first();
+        $percent = $percentSetting->value;
+        $obtainBonuses = ( intval($request->price) * $percent) / 100;
 
-        foreach ($request->orders as $order) {
-
-            $order = Order::where('id', $order)->first();
-            $totalBonusSpend += intval($order->price);
-
-            $bonus = new Bonus();
-            $bonus->user_id = $user->id;
-            $bonus->frame_id = $frame->id;
-            $bonus->price = $order->price;
-            $bonus->bonuses = $order->price;
-            $bonus->status = "spent";
-            $bonus->date = Carbon::now('Europe/Kiev');
-            $bonus->save();
-
-            $order->status = "CLOSED";
-            $order->save();
-        }
-
-//        Снятие бонусов
-        $user->bonuses = $user->bonuses - $totalBonusSpend;
+//      Убираем токен
+        $user->bonuses = $user->bonuses + $obtainBonuses;
         $user->bonuses_token = null;
         $user->save();
 
