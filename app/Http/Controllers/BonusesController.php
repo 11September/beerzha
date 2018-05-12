@@ -47,6 +47,9 @@ class BonusesController extends Controller
         try {
             $dishes = Dish::select('id', 'title', 'description', 'weight', 'price', 'image')
                 ->filter($request)
+                ->whereHas('type', function ($query) {
+                    $query->where('bonuses', '=', 'Yes');
+                })
                 ->published()
                 ->get();
 

@@ -37,7 +37,8 @@ Route::post('oauth', 'UsersController@login')->name('register');
 Route::post('restore_password', 'UsersController@ResetPassword')->name('ResetPassword');
 Route::post('social', 'UsersController@social')->name('social');
 Route::middleware('token')->post('logout', 'UsersController@logout')->name('logout');
-Route::middleware('token')->post('add_phone', 'UsersController@changePersonalInfo')->name('Change Personal Info');
+Route::middleware('token')->post('add_phone', 'UsersController@changePersonalPhone')->name('Change Personal Phone');
+Route::middleware('token')->post('profile/edit', 'UsersController@changePersonalInfo')->name('Change Personal Info');
 Route::middleware('token')->get('profile', 'UsersController@profile')->name('profile');
 // Users routes
 

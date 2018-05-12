@@ -187,10 +187,45 @@ class UsersController extends Controller
         return $string;
     }
 
-    public function changePersonalInfo(Request $request, User $user)
+    public function changePersonalPhone(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string|min:10',
+            'email' => 'string|email|max:255',
+            'birthday' => 'required|date',
+            'gender' => [
+                'string',
+                Rule::in(['male', 'female']),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Дані в запиті не заповнені або не вірні aбо такого номеру не існує!'], 400);
+        }
+
+        try {
+            $user = User::where('token', '=', $request->header('x-auth-token'))->first();
+
+            $user->phone = $request->phone;
+            $user->email = $request->email;
+            $user->birthday = $request->birthday;
+            $user->gender = $request->gender;
+
+            $user->save();
+
+        } catch (\Exception $exception) {
+            Log::warning('UsersController@changePersonalInfo Exception: ' . $exception->getMessage());
+            Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
+            return response()->json(['message' => 'Упс! Щось пішло не так!'], 500);
+        }
+
+        return response(["data" => $user]);
+    }
+
+    public function changePersonalInfo(Request $request, User $user)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone' => 'string|min:10',
             'email' => 'string|email|max:255',
             'birthday' => 'required|date',
             'gender' => [
@@ -372,11 +407,13 @@ class UsersController extends Controller
 
             $result = array();
             $result = array_add($result, 'id', $user->id);
-            $result = array_add($result, 'first_name', $user->first_name);
-            $result = array_add($result, 'second_name', $user->second_name);
+            $result = array_add($result, 'first_name', $user->name);
+            $result = array_add($result, 'second_name', $user->email);
             $result = array_add($result, 'avatar', $user->avatar);
-            $result = array_add($result, 'email', $user->email);
+            $result = array_add($result, 'email', $user->gender);
+            $result = array_add($result, 'email', $user->birthday);
             $result = array_add($result, 'phone', $user->phone);
+            $result = array_add($result, 'phone', $user->bonuses);
 
         } catch (\Exception $exception) {
             Log::warning('UsersController@profile Exception: ' . $exception->getMessage());

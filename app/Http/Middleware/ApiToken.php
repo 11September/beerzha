@@ -24,9 +24,6 @@ class ApiToken
         if($token && $request->header('x-auth-token')){
             return $next ($request);
         }else{
-            Log::info('Token is: '. $request->header('x-auth-token'));
-            Log::info('User-agent is: '. $request->header('user-agent'));
-
             return response()->json(['message' => 'Невідповідність токена або користувач не авторизований'], 403);
         }
 
