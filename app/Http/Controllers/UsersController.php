@@ -192,7 +192,7 @@ class UsersController extends Controller
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string|min:10',
             'email' => 'string|email|max:255',
-            'birthday' => 'required|date',
+            'birthday' => 'date',
             'gender' => [
                 'string',
                 Rule::in(['male', 'female']),
@@ -209,6 +209,11 @@ class UsersController extends Controller
             $user->phone = $request->phone;
             $user->email = $request->email;
             $user->birthday = $request->birthday;
+
+            if (!$request->gender){
+                $request->gender = 'unknown';
+            }
+
             $user->gender = $request->gender;
 
             $user->save();
