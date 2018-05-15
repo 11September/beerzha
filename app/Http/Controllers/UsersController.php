@@ -410,11 +410,10 @@ class UsersController extends Controller
             $result = array_add($result, 'name', $user->name);
             $result = array_add($result, 'email', $user->email);
             $result = array_add($result, 'avatar', $user->avatar);
-            $result = array_add($result, 'email', $user->gender);
+            $result = array_add($result, 'gender', $user->gender);
             $result = array_add($result, 'birthday', $user->birthday);
-            $result = array_add($result, 'email', $user->birthday);
             $result = array_add($result, 'phone', $user->phone);
-            $result = array_add($result, 'phone', $user->bonuses);
+            $result = array_add($result, 'bonuses', $user->bonuses);
 
         } catch (\Exception $exception) {
             Log::warning('UsersController@profile Exception: ' . $exception->getMessage());
