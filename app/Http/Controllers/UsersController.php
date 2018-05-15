@@ -315,9 +315,10 @@ class UsersController extends Controller
             ],
             'token' => 'required|string',
             'phone' => 'string|min:10',
-            'email' => 'string|email|min:10',
+            'email' => 'string|email',
             'name' => 'string|min:3',
         ]);
+
         if ($validator->fails()) {
             return response()->json(['message' => 'Дані в запиті не заповнені або не вірні!'], 400);
         }
@@ -337,7 +338,7 @@ class UsersController extends Controller
         return response(["token" => $user->token, "isNewUser" => $this->isNewUser], 200);
     }
 
-    public function createOrGetUser($provider, $token, $phone, $email, $first_name)
+    public function createOrGetUser($provider, $token, $phone, $email, $name)
     {
         $user = null;
 
@@ -349,8 +350,8 @@ class UsersController extends Controller
             $email = null;
         }
 
-        if (!$first_name) {
-            $first_name = null;
+        if (!$name) {
+            $name = null;
         }
 
         $account = SocialAccount::select('user_id', 'provider_user_id')
@@ -379,7 +380,7 @@ class UsersController extends Controller
                 $user = new User();
                 $user->email = $email;
                 $user->phone = $phone;
-                $user->name = $first_name;
+                $user->name = $name;
                 $user->password = bcrypt(str_random(30));
                 $user->token = bcrypt($token);
                 $user->save();
