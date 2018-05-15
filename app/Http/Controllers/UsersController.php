@@ -407,10 +407,11 @@ class UsersController extends Controller
 
             $result = array();
             $result = array_add($result, 'id', $user->id);
-            $result = array_add($result, 'first_name', $user->name);
-            $result = array_add($result, 'second_name', $user->email);
+            $result = array_add($result, 'name', $user->name);
+            $result = array_add($result, 'email', $user->email);
             $result = array_add($result, 'avatar', $user->avatar);
             $result = array_add($result, 'email', $user->gender);
+            $result = array_add($result, 'birthday', $user->birthday);
             $result = array_add($result, 'email', $user->birthday);
             $result = array_add($result, 'phone', $user->phone);
             $result = array_add($result, 'phone', $user->bonuses);
