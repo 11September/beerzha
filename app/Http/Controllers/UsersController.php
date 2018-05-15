@@ -318,7 +318,7 @@ class UsersController extends Controller
         }
 
         try {
-            $user = $this->createOrGetUser($request->provider, $request->token, $request->phone, $request->email, $request->first_name, $request->last_name);
+            $user = $this->createOrGetUser($request->provider, $request->token, $request->phone, $request->email, $request->name);
 
             Auth::attempt(array('token' => $user->token, 'password' => $user->password), true);
 //            auth()->login($user);
@@ -332,7 +332,7 @@ class UsersController extends Controller
         return response(["token" => $user->token, "isNewUser" => $this->isNewUser], 200);
     }
 
-    public function createOrGetUser($provider, $token, $phone, $email, $first_name, $last_name)
+    public function createOrGetUser($provider, $token, $phone, $email, $first_name)
     {
         $user = null;
 
@@ -346,10 +346,6 @@ class UsersController extends Controller
 
         if (!$first_name) {
             $first_name = null;
-        }
-
-        if (!$last_name) {
-            $last_name = null;
         }
 
         $account = SocialAccount::select('user_id', 'provider_user_id')
@@ -378,8 +374,7 @@ class UsersController extends Controller
                 $user = new User();
                 $user->email = $email;
                 $user->phone = $phone;
-                $user->first_name = $first_name;
-                $user->second_name = $last_name;
+                $user->name = $first_name;
                 $user->password = bcrypt(str_random(30));
                 $user->token = bcrypt($token);
                 $user->save();
