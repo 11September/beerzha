@@ -311,8 +311,7 @@ class UsersController extends Controller
             'token' => 'required|string',
             'phone' => 'string|min:10',
             'email' => 'string|email|min:10',
-            'first_name' => 'string|min:3',
-            'last_name' => 'string|min:3',
+            'name' => 'string|min:3',
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => 'Дані в запиті не заповнені або не вірні!'], 400);
