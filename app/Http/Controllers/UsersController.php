@@ -191,6 +191,7 @@ class UsersController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string|min:10',
+            'name' => 'string',
             'email' => 'string|email|max:255',
             'birthday' => 'date',
             'gender' => [
@@ -206,6 +207,7 @@ class UsersController extends Controller
         try {
             $user = User::where('token', '=', $request->header('x-auth-token'))->first();
 
+            $user->name = $request->name;
             $user->phone = $request->phone;
             $user->email = $request->email;
             $user->birthday = $request->birthday;
