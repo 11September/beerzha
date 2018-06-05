@@ -229,12 +229,13 @@ class UsersController extends Controller
         return response(["data" => $user]);
     }
 
-    public function changePersonalInfo(Request $request, User $user)
+    public function changePersonalInfo(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'name' => 'string|max:255',
             'phone' => 'string|min:10',
             'email' => 'string|email|max:255',
-            'birthday' => 'required|date',
+            'birthday' => 'date',
             'gender' => [
                 'string',
                 Rule::in(['male', 'female']),
@@ -247,9 +248,11 @@ class UsersController extends Controller
 
         try {
             $user = User::where('token', '=', $request->header('x-auth-token'))->first();
-
+            $user->name = $request->name;
             $user->phone = $request->phone;
-
+            $user->email = $request->email;
+            $user->birthday = $request->birthday;
+            $user->gender = $request->gender;
             $user->save();
 
         } catch (\Exception $exception) {
