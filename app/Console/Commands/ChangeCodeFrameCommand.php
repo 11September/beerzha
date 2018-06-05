@@ -43,7 +43,7 @@ class ChangeCodeFrameCommand extends Command
         $frames = Frame::all();
 
         foreach ($frames as $frame) {
-            $frame->code = random_int ( 3 , 4 );
+            $frame->code = random_int ( 1000 , 9999 );
             $frame->save();
         }
 

@@ -43,7 +43,6 @@ class BeersController extends Controller
             return response(['data' => $beers]);
 
         } catch (\Exception $exception) {
-            Log::warning('BeersController@index Exception: ' . $exception->getMessage());
             Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
             return response()->json(['message' => 'Упс! Щось пішло не так!'], 500);
         }
@@ -80,6 +79,7 @@ class BeersController extends Controller
 
             $share = $beer->share;
             $count_share = $beer->share_count;
+
 
             if ($beer->share == "enable" && $count_share != 0){
                 $request->price = -1;
@@ -185,13 +185,10 @@ class BeersController extends Controller
             return response()->json(['message' => 'Ваш заказ оброблено!'], 200);
 
         } catch (ClientException $exception) {
-            Spectator::store(url()->current(), $exception->getMessage());
-            return response()->json(['message' => 'Ваш заказ оброблено!'], 200);
+            Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
+            return response()->json(['message' => 'Ваш заказ в обробцi!'], 200);
         } catch (\Exception $exception) {
-            Log::warning('BeersController@store Exception: ' . $exception->getMessage());
-
-
-
+            Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
             return response()->json(['message' => 'Ваш заказ в обробцi!'], 500);
         }
     }
