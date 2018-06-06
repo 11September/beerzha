@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Beerga;
+use App\HistoryDevice;
 use App\User;
 use App\Widget;
 use App\Preorder;
@@ -496,6 +497,36 @@ class UsersController extends Controller
 
         } catch (\Exception $exception) {
             Log::warning('UsersController@delivery Exception: ' . $exception->getMessage());
+            Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
+            return response()->json(['message' => 'Упс! Щось пішло не так!'], 500);
+        }
+    }
+
+    public function devices(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'device' => 'required|string|max:255',
+            'device_os' => 'required|string|max:255',
+            'device_os_version' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => 'Дані в запиті не заповнені або не вірні!'], 400);
+        }
+
+        try {
+            $user = User::where('token', '=', $request->header('x-auth-token'))->first();
+
+            $history_device = new HistoryDevice();
+            $history_device->user_id = $user->id;
+            $history_device->device = $request->device;
+            $history_device->device_os = $request->device_os;
+            $history_device->device_os_version = $request->device_os_version;
+            $history_device->save();
+
+            return response(["data" => $history_device], 200);
+
+        } catch (\Exception $exception) {
             Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
             return response()->json(['message' => 'Упс! Щось пішло не так!'], 500);
         }

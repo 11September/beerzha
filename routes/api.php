@@ -46,4 +46,5 @@ Route::middleware('token')->get('profile', 'UsersController@profile')->name('pro
 Route::middleware('token')->post('code', 'OrdersController@code')->name('Day code and count Tables');
 Route::middleware('token')->post('beerga', 'BeersController@store')->name('Order Beer');
 Route::middleware('token')->get('delivery', 'UsersController@delivery')->name('delivery_possible');
+Route::middleware('token')->post('devices', 'UsersController@devices')->name('devices');
 // Additional routes
