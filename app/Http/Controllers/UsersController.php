@@ -102,6 +102,12 @@ class UsersController extends Controller
             'email' => 'required|string|email|max:255',
             'phone' => 'required|string|min:10',
             'password' => 'required|string|min:6|max:255',
+            'name' => 'string|max:255',
+            'birthday' => 'date',
+            'gender' => [
+                'string',
+                Rule::in(['male', 'female']),
+            ],
         ]);
 
         $validator_present = Validator::make($request->all(), [
@@ -123,6 +129,11 @@ class UsersController extends Controller
             $user->phone = $request->phone;
             $user->password = Hash::make($request->password);
             $user->token = bcrypt($request->email);
+
+            $user->name = $request->name;
+            $user->birthday = $request->birthday;
+            $user->gender = $request->gender;
+
             $user->save();
 
             Auth::attempt(array('email' => $user->email, 'password' => $user->password), true);
