@@ -233,7 +233,7 @@ class OrdersController extends Controller
             $allowable_time = (Carbon::now()->between($startTime, $endTime));
 
             if (!$allowable_time) {
-                return response()->json(['message' => 'Час для покупки не валiдний'], 200);
+                return response()->json(['message' => 'Час для покупки не валiдний!'], 200);
             }
 
 //          Check bonuses
