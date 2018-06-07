@@ -401,12 +401,15 @@ class UsersController extends Controller
                 $user->password = bcrypt(str_random(30));
                 $user->token = bcrypt($token);
                 $user->save();
+
+                $this->isNewUser = true;
             }
 
             $account->user()->associate($user);
             $account->save();
 
-            $this->isNewUser = true;
+            $this->isNewUser = false;
+
             return $user;
         }
 
