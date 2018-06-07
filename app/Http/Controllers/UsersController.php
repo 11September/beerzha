@@ -331,9 +331,9 @@ class UsersController extends Controller
                 Rule::in(['google', 'facebook']),
             ],
             'token' => 'required|string',
-            'phone' => 'string|min:10',
+            'phone' => 'string',
             'email' => 'string|email',
-            'name' => 'string|min:3',
+            'name' => 'string',
         ]);
 
         if ($validator->fails()) {
