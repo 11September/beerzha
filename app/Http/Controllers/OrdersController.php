@@ -229,7 +229,8 @@ class OrdersController extends Controller
 
 //          Check time
             $startTime = Carbon::createFromFormat('H:i:s', '12:00:00');
-            $endTime = Carbon::createFromFormat('H:i:s', '24:00:00');
+            $endTime = Carbon::createFromFormat('H:i:s', '17:00:00');
+
             $allowable_time = (Carbon::now()->between($startTime, $endTime));
 
             if (!$allowable_time) {
