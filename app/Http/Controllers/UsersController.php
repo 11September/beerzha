@@ -133,7 +133,12 @@ class UsersController extends Controller
 
             $user->name = $request->name;
             $user->birthday = $request->birthday;
-            $user->gender = $request->gender;
+
+            if (!$request->gender || empty($request->gender)){
+                $user->gender = "unknown";
+            }else{
+                $user->gender = $request->gender;
+            }
 
             $user->save();
 
