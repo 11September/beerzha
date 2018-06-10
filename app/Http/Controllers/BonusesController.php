@@ -118,7 +118,7 @@ class BonusesController extends Controller
         return view('checkoutBonuses', compact('personals', 'bonusToken', 'orders'));
     }
 
-    public function getbonuses(Request $request)
+    public function spendBonuses(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'orders_id' => 'required',

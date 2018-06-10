@@ -26,7 +26,7 @@ Route::get('/bonuses/{bonusToken}', 'BonusesController@get_bonuses')->name('page
 //checkout
 Route::get('/bonuses/purchase/{bonusToken}', 'BonusesController@checkout')->name('page-purchase-bonuses');
 
-Route::post('/getbonuses', 'BonusesController@getbonuses')->name('getbonuses');
+Route::post('/getbonuses', 'BonusesController@spendBonuses')->name('getbonuses');
 Route::post('/getOrders', 'BonusesController@obtainingBonuses')->name('obtainingBonuses');
 // Bonuses
 

@@ -87,7 +87,7 @@
             <div class="wrapper">
                 <h1 style="text-align: center">Покупка за бонусы!</h1>
 
-                <form method="post" action="{{ action('BonusesController@getbonuses') }}">
+                <form method="post" action="{{ action('BonusesController@spendBonuses') }}">
                     {{ csrf_field() }}
 
                     <div class="form-group">
