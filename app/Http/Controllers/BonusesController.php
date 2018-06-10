@@ -88,6 +88,17 @@ class BonusesController extends Controller
         return response()->json(['message' => 'Token згенеровано!', 'data' => $user->bonuses_token], 200);
     }
 
+    public function get_bonuses($bonusToken = null)
+    {
+        $user = User::where('bonuses_token', '=', $bonusToken)->first();
+
+        if (empty($user->bonuses_token) || !$user->bonuses_token) {
+            abort(404);
+        }
+
+        return view('getBonuses', compact('bonusToken'));
+    }
+
     public function checkout($bonusToken = null)
     {
         $user = User::where('bonuses_token', '=', $bonusToken)->first();
@@ -104,18 +115,7 @@ class BonusesController extends Controller
 
         $personals = Frame::all();
 
-        return view('bonuses', compact('personals', 'bonusToken', 'orders'));
-    }
-
-    public function get_bonuses($bonusToken = null)
-    {
-        $user = User::where('bonuses_token', '=', $bonusToken)->first();
-
-        if (empty($user->bonuses_token) || !$user->bonuses_token) {
-            abort(404);
-        }
-
-        return view('purchase', compact('bonusToken'));
+        return view('checkoutBonuses', compact('personals', 'bonusToken', 'orders'));
     }
 
     public function getbonuses(Request $request)
@@ -173,6 +173,8 @@ class BonusesController extends Controller
             return redirect()->back();
         }
 
+        $price = $request->price;
+
         $frame = Frame::where('code', $request->code)->first();
         $user = User::where('bonuses_token', '=', $request->user_id)->first();
 
@@ -189,6 +191,15 @@ class BonusesController extends Controller
         $user->bonuses = $user->bonuses + $obtainBonuses;
         $user->bonuses_token = null;
         $user->save();
+
+        $bonuses = new Bonus();
+        $bonuses->user_id = $user->id;
+        $bonuses->frame_id = $frame->id;
+        $bonuses->price = $price;
+        $bonuses->bonuses = $obtainBonuses;
+        $bonuses->status = "accrued";
+        $bonuses->date = Carbon::now()->toDateTimeString();
+        $bonuses->save();
 
         return view('bonuses-thanks');
     }

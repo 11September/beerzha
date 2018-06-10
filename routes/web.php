@@ -19,8 +19,12 @@ Route::get('/ticker', 'BeergaController@getRunningLine')->name('getTicker');
 Route::get('/notification/{notification}', 'NotificationsController@notificationPage')->name('notificationPageWeb');
 
 // Bonuses
-Route::get('/bonuses/{bonusToken}', 'BonusesController@checkout')->name('page-get-bonuses');
-Route::get('/bonuses/purchase/{bonusToken}', 'BonusesController@get_bonuses')->name('page-purchase-bonuses');
+
+//get_bonuses
+Route::get('/bonuses/{bonusToken}', 'BonusesController@get_bonuses')->name('page-get-bonuses');
+
+//checkout
+Route::get('/bonuses/purchase/{bonusToken}', 'BonusesController@checkout')->name('page-purchase-bonuses');
 
 Route::post('/getbonuses', 'BonusesController@getbonuses')->name('getbonuses');
 Route::post('/getOrders', 'BonusesController@obtainingBonuses')->name('obtainingBonuses');
