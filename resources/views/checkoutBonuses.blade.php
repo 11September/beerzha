@@ -67,9 +67,11 @@
             <div class="col-md-4">
                 <div class="card" style="width:100%">
                     <div class="card-body">
-                        <h4 class="card-title">Цена: {{ $order->dish->price }}</h4>
-                        <h4 class="card-title">Кол-во: {{ $order->amount }}</h4>
-                        <p class="card-text">{{ $order->dish->title }}</p>
+                        <h4 style="text-align: center" class="card-title">Цена: {{ $order->dish->price }}</h4>
+                        <h4 style="text-align: center" class="card-title">Кол-во: {{ $order->amount }}</h4>
+                        <p style="text-align: center" class="card-text">{{ $order->dish->title }}</p>
+                        <img style="width: 50%;height: 140px;margin: 0 auto;text-align: center;display: flex;"
+                             src="{{ asset('storage/' . $order->dish->image) }}" alt="{{ $order->dish->title }}">
                     </div>
                 </div>
             </div>

@@ -154,7 +154,7 @@ class BonusesController extends Controller
         $bonus->frame_id = $frame->id;
         $bonus->price = $request->price;
         $bonus->bonuses = $bonusSpend;
-        $bonus->status = "accrued";
+        $bonus->status = "spent";
         $bonus->date = Carbon::now('Europe/Kiev');
         $bonus->save();
 
