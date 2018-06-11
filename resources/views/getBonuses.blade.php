@@ -26,12 +26,12 @@
         }
 
         .logo {
-            margin: 100px auto 50px auto;
+            margin: 40px auto 40px auto;
             text-align: center;
         }
 
         .logo img {
-            width: 120px;
+            width: 100px;
             text-align: center;
             margin: 0 auto;
         }
