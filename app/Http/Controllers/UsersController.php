@@ -184,6 +184,8 @@ class UsersController extends Controller
 
             $user->save();
 
+            return response()->json(['message' => 'Перевірте пошту з новим паролем!'], 200);
+
         } catch (\Exception $exception) {
             Log::warning('UsersController@resetPassword Exception: ' . $exception->getMessage());
             Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
