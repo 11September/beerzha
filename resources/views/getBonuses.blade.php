@@ -88,7 +88,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlInput2">Код сотрудника</label>
                     <input name="code" type="password" class="form-control" id="exampleFormControlInput2"
-                           placeholder="100 грн.">
+                           placeholder="****">
                 </div>
 
                 <button type="submit" class="btn btn-primary btn-block">Отправить</button>
