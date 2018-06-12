@@ -191,8 +191,6 @@ class UsersController extends Controller
             Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
             return response()->json(['message' => 'Упс! Щось пішло не так!'], 500);
         }
-
-        return response()->json(['success' => true], 200);
     }
 
     public function generatePassword($length = 8)
