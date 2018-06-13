@@ -134,9 +134,9 @@ class UsersController extends Controller
             $user->name = $request->name;
             $user->birthday = $request->birthday;
 
-            if (!$request->gender || empty($request->gender)){
+            if (!$request->gender || empty($request->gender)) {
                 $user->gender = "unknown";
-            }else{
+            } else {
                 $user->gender = $request->gender;
             }
 
@@ -229,7 +229,7 @@ class UsersController extends Controller
             $user->email = $request->email;
             $user->birthday = $request->birthday;
 
-            if (!$request->gender){
+            if (!$request->gender) {
                 $request->gender = 'unknown';
             }
 
@@ -520,16 +520,21 @@ class UsersController extends Controller
         }
 
         try {
-            $user = User::where('token', '=', $request->header('x-auth-token'))->first();
+            $device = HistoryDevice::where('device', $request->device)->first();
 
-            $history_device = new HistoryDevice();
-            $history_device->user_id = $user->id;
-            $history_device->device = $request->device;
-            $history_device->device_os = $request->device_os;
-            $history_device->device_os_version = $request->device_os_version;
-            $history_device->save();
+            if (isset($device) && ($device->device == $request->device) && ($device->device_os == $request->device_os)) {
+                $device->count = $device->count + 1;
+                $device->save();
+            }else{
+                $device = new HistoryDevice();
+                $device->device = $request->device;
+                $device->device_os = $request->device_os;
+                $device->device_os_version = $request->device_os_version;
+                $device->count = 1;
+                $device->save();
+            }
 
-            return response(["data" => $history_device], 200);
+            return response(["data" => $device], 200);
 
         } catch (\Exception $exception) {
             Spectator::store(url()->current(), $exception->getMessage(), $exception->getLine());
