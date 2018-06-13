@@ -47,6 +47,6 @@ class ChangeCodeFrameCommand extends Command
             $frame->save();
         }
 
-        Spectator::store(url()->current(), "Запуск крона на изменение кода персонала в: " . Carbon::now('Europe/Kiev'));
+//        Spectator::store(url()->current(), "Запуск крона на изменение кода персонала в: " . Carbon::now('Europe/Kiev'));
     }
 }

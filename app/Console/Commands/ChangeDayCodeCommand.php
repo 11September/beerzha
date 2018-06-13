@@ -54,7 +54,7 @@ class ChangeDayCodeCommand extends Command
 
         $code->value = rand(pow(10, $digits-1), pow(10, $digits)-1);
 
-        Spectator::store(url()->current(), "Запуск крона на изменение кода дня в: " . Carbon::now('Europe/Kiev') . " на значение: " , $code->value);
+//        Spectator::store(url()->current(), "Запуск крона на изменение кода дня в: " . Carbon::now('Europe/Kiev') . " на значение: " , $code->value);
 
         $code->save();
     }

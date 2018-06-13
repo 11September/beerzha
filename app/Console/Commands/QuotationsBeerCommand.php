@@ -62,6 +62,6 @@ class QuotationsBeerCommand extends Command
             }
         }
 
-        Spectator::store(url()->current(), "Запуск крона на изменение котировок биржи в: " . Carbon::now('Europe/Kiev'));
+//        Spectator::store(url()->current(), "Запуск крона на изменение котировок биржи в: " . Carbon::now('Europe/Kiev'));
     }
 }
