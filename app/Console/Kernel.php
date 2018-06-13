@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('change:code')->twiceDaily('8', '23')->timezone('Europe/Kiev');
         $schedule->command('quotation:beer')->everyTenMinutes();
-        $schedule->command('change:codeFrame')->dailyAt('23')->timezone('Europe/Kiev');
+        $schedule->command('change:codeFrame')->dailyAt('2')->timezone('Europe/Kiev');
         $schedule->command('reset:bonuses')->quarterly()->timezone('Europe/Kiev');
     }
 
