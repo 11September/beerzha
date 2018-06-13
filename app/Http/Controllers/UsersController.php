@@ -180,7 +180,7 @@ class UsersController extends Controller
 
             $user->password = bcrypt($new_password);
 
-//            \Mail::to($request->email)->send(new ResetPassword($user, $new_password));
+            \Mail::to($request->email)->send(new ResetPassword($user, $new_password));
 
             $user->save();
 
