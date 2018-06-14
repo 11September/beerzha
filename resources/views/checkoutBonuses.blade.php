@@ -22,11 +22,11 @@
         }
 
         .card {
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .logo {
-            margin: 100px auto 50px auto;
+            margin: 50px auto 50px auto;
             text-align: center;
         }
 
@@ -70,7 +70,7 @@
                         <h4 style="text-align: center" class="card-title">Цена: {{ $order->dish->price }}</h4>
                         <h4 style="text-align: center" class="card-title">Кол-во: {{ $order->amount }}</h4>
                         <p style="text-align: center" class="card-text">{{ $order->dish->title }}</p>
-                        <img style="width: 50%;height: 140px;margin: 0 auto;text-align: center;display: flex;"
+                        <img style="width: 50%;height: 120px;margin: 0 auto;text-align: center;display: flex;"
                              src="{{ asset('storage/' . $order->dish->image) }}" alt="{{ $order->dish->title }}">
                     </div>
                 </div>
@@ -102,7 +102,6 @@
                                class="form-control">
                     </div>
 
-
                     <div class="form-group">
                         <select hidden="hidden" name="orders_id[]" multiple class="form-control" id="exampleSelect2">
                             @foreach($orders as $order)
@@ -114,7 +113,7 @@
                     <div class="form-group">
                         <label for="exampleFormControlInput2">Код сотрудника</label>
                         <input name="code" type="password" class="form-control" id="exampleFormControlInput2"
-                               placeholder="***">
+                               placeholder="****">
                     </div>
 
                     <div class="form-group">
