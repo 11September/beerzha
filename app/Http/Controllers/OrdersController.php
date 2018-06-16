@@ -264,7 +264,7 @@ class OrdersController extends Controller
             $endMessageTime = substr($endTimeDatabase->value, 0, -3);
 
             if (!$allowable_time) {
-                return response()->json(['message' => "Час для покупки не валiдний! Ви можете зробити покупку з - $startMessageTime до - $endMessageTime"], 200);
+                return response()->json(['message' => "Час для покупки не валiдний! Ви можете зробити покупку з $startMessageTime до $endMessageTime"], 200);
             }
 
 //          Check bonuses
