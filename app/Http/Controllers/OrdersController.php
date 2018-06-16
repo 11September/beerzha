@@ -228,13 +228,43 @@ class OrdersController extends Controller
             $orders = array();
 
           //Check time
+
+            //          default time
             $startTime = Carbon::createFromFormat('H:i:s', '12:00:00');
             $endTime = Carbon::createFromFormat('H:i:s', '17:00:00');
 
-            $allowable_time = (Carbon::now()->between($startTime, $endTime));
+            //          database time
+            $startTimeDatabase = Beerga::select('value')->where('key', '=', 'bonuses_start')->first();
+            $endTimeDatabase = Beerga::select('value')->where('key', '=', 'bonuses_end')->first();
+
+            $startTimeDatabaseStart = null;
+            $startTimeDatabaseEnd = null;
+            $allowable_time = null;
+
+            $pattern = '#[\d]{2}\:[\d]{2}\:[\d]{2}#';
+
+            if(preg_match_all($pattern, $startTimeDatabase->value)){
+                $startTimeDatabaseStart = Carbon::createFromFormat('H:i:s', $startTimeDatabase->value);
+            }
+
+            if(preg_match_all($pattern, $endTimeDatabase->value)){
+                $startTimeDatabaseEnd = Carbon::createFromFormat('H:i:s', $endTimeDatabase->value);
+            }
+
+            $allowable_time_database = (Carbon::now()->between($startTimeDatabaseStart, $startTimeDatabaseEnd, true));
+
+
+            if(!$allowable_time_database){
+                $allowable_time = (Carbon::now()->between($startTime, $endTime, true));
+            }else{
+                $allowable_time = $allowable_time_database;
+            }
+
+            $startMessageTime = substr($startTimeDatabase->value, 0, -3);
+            $endMessageTime = substr($endTimeDatabase->value, 0, -3);
 
             if (!$allowable_time) {
-                return response()->json(['message' => 'Час для покупки не валiдний!'], 200);
+                return response()->json(['message' => "Час для покупки не валiдний! Ви можете зробити покупку з - $startMessageTime до - $endMessageTime"], 200);
             }
 
 //          Check bonuses
